@@ -1,0 +1,472 @@
+• UML 
++---------------------+ 
+|      
+ Equipo       
+ | 
++---------------------+ 
+| - nombre: String    | 
+| - entrenador: String| 
+| - jugadores: ArrayList<String> | 
++---------------------+ 
+| + agregarJugador(jugador: String): void | 
+| + toString(): String | 
++---------------------+ 
+^ 
+| 
++-----------------------+ 
+|       
+ Partido       
+ | 
++-----------------------+ 
+| - equipo1: Equipo     | 
+| - equipo2: Equipo     | 
+| - fecha: String      
+ | 
+| - estado: String      | 
+| - resultado: String   | 
++-----------------------+ 
+| + finalizar(resultado: String): void | 
+| + toString(): String | 
++-----------------------+ 
+^ 
+| 
++---------------------+ 
+|       
+Torneo        
+| 
++---------------------+ 
+| - equipos: ArrayList<Equipo> | 
+| - partidos: ArrayList<Partido> | 
++---------------------+ 
+| + registrarEquipo(equipo: Equipo): void | 
+| + crearPartido(equipo1: Equipo, equipo2: Equipo, fecha: String): void | 
+| + listarEquipos(): void | 
+| + mostrarHistorial(): void | 
+| + actualizarResultado(indicePartido: int, resultado: String): void | 
++---------------------+ 
+• Codigo: 
+Proyecto: Actividad Experimental 1 
+Clase: GestorDeProyecto.java 
+/* 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+*/ 
+/** 
+ * 
+ * @author maila 
+ */ 
+public class Main { 
+    public static void main(String[] args) { 
+        Torneo torneo = new Torneo(); 
+ 
+        // Registrar equipos 
+        Equipo equipo1 = new Equipo("Tiburones", "Carlos"); 
+        equipo1.agregarJugador("Juan"); 
+        equipo1.agregarJugador("Pedro"); 
+ 
+        Equipo equipo2 = new Equipo("Dragones", "Ana"); 
+        equipo2.agregarJugador("Luis"); 
+        equipo2.agregarJugador("Miguel"); 
+ 
+        torneo.registrarEquipo(equipo1); 
+        torneo.registrarEquipo(equipo2); 
+ 
+        // Crear partidos 
+        torneo.crearPartido(equipo1, equipo2, "10/12/2024"); 
+ 
+        // Consultar información 
+        System.out.println("=== Equipos ==="); 
+        torneo.listarEquipos(); 
+ 
+        System.out.println("\n=== Historial de partidos ==="); 
+        torneo.mostrarHistorial(); 
+ 
+        // Actualizar resultados 
+        System.out.println("\n=== Actualizando resultado del primer partido ==="); 
+        torneo.actualizarResultado(0, "2-1"); 
+ 
+        System.out.println("\n=== Historial actualizado ==="); 
+        torneo.mostrarHistorial(); 
+    } 
+} 
+ 
+Clase: Main.java 
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+ */ 
+ 
+/** 
+ * 
+ * @author maila 
+ */ 
+public class Main { 
+    public static void main(String[] args) { 
+        GestorDeProyecto gestor = new GestorDeProyecto(); 
+ 
+        Proyecto proyecto1 = gestor.registrarProyecto("Proyecto 1", "Descripción del 
+proyecto 1"); 
+proyecto1.agregarTarea(new Tarea("Diseñar la base de datos", "Crear el 
+modelo ER", "Carlos")); 
+proyecto1.agregarTarea(new Tarea("Implementar la interfaz", "Crear el diseño 
+inicial", "Ana")); 
+Proyecto proyecto2 = gestor.registrarProyecto("Proyecto 2", "Descripción del 
+proyecto 2"); 
+proyecto2.agregarTarea(new Tarea("Definir requerimientos", "Reunión con el 
+cliente", "Luis")); 
+gestor.mostrarProyectos(); 
+} 
+} 
+Clase: Proyecto.java 
+/* 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+*/ 
+/** 
+* 
+* @author maila 
+*/ 
+import java.util.ArrayList; 
+public class Proyecto { 
+private String nombre; 
+    private String descripcion; 
+    private ArrayList<Tarea> tareas; 
+ 
+    public Proyecto(String nombre, String descripcion) { 
+        this.nombre = nombre; 
+        this.descripcion = descripcion; 
+        this.tareas = new ArrayList<>(); 
+    } 
+ 
+    public void agregarTarea(Tarea tarea) { 
+        tareas.add(tarea); 
+    } 
+ 
+    public void mostrarEstado() { 
+        System.out.println("Proyecto: " + nombre); 
+        for (Tarea tarea : tareas) { 
+            System.out.println("- " + tarea); 
+        } 
+    } 
+} 
+ 
+Clase: Tarea.java 
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+ */ 
+ 
+/** 
+ * 
+ * @author maila 
+ */ 
+public class Tarea { 
+    private String titulo; 
+    private String descripcion; 
+    private String responsable; 
+    private String estado; 
+ 
+    public Tarea(String titulo, String descripcion, String responsable) { 
+        this.titulo = titulo; 
+        this.descripcion = descripcion; 
+        this.responsable = responsable; 
+        this.estado = "Pendiente"; 
+    } 
+ 
+    public void completar() { 
+        this.estado = "Completada"; 
+    } 
+ 
+    @Override 
+    public String toString() { 
+        return "Tarea: " + titulo + ", Responsable: " + responsable + ", Estado: " + estado; 
+    } 
+} 
+ 
+Proyecto: Gestion De Torneos 
+Clase: Equipo.java 
+/* 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+*/ 
+/** 
+* 
+* @author maila 
+*/ 
+import java.util.ArrayList; 
+public class Equipo { 
+private String nombre; 
+private String entrenador; 
+private ArrayList<String> jugadores; 
+public Equipo(String nombre, String entrenador) { 
+this.nombre = nombre; 
+this.entrenador = entrenador; 
+this.jugadores = new ArrayList<>(); 
+} 
+public void agregarJugador(String jugador) { 
+jugadores.add(jugador); 
+} 
+    @Override 
+    public String toString() { 
+        return "Equipo: " + nombre + ", Entrenador: " + entrenador + ", Jugadores: " + 
+jugadores; 
+    } 
+} 
+ 
+Clase: Main.java 
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+ */ 
+ 
+/** 
+ * 
+ * @author maila 
+ */ 
+public class Main { 
+    public static void main(String[] args) { 
+        Torneo torneo = new Torneo(); 
+ 
+        // Registrar equipos 
+        Equipo equipo1 = new Equipo("Tiburones", "Carlos"); 
+        equipo1.agregarJugador("Juan"); 
+        equipo1.agregarJugador("Pedro"); 
+ 
+        Equipo equipo2 = new Equipo("Dragones", "Ana"); 
+        equipo2.agregarJugador("Luis"); 
+        equipo2.agregarJugador("Miguel"); 
+ 
+        torneo.registrarEquipo(equipo1); 
+        torneo.registrarEquipo(equipo2); 
+ 
+        // Crear partidos 
+        torneo.crearPartido(equipo1, equipo2, "10/12/2024"); 
+ 
+        // Consultar información 
+        System.out.println("=== Equipos ==="); 
+        torneo.listarEquipos(); 
+ 
+        System.out.println("\n=== Historial de partidos ==="); 
+        torneo.mostrarHistorial(); 
+ 
+        // Actualizar resultados 
+        System.out.println("\n=== Actualizando resultado del primer partido ==="); 
+        torneo.actualizarResultado(0, "2-1"); 
+ 
+        System.out.println("\n=== Historial actualizado ==="); 
+        torneo.mostrarHistorial(); 
+    } 
+} 
+ 
+Clase: Partido.java 
+/* 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+ */ 
+ 
+/** 
+ * 
+ * @author maila 
+ */ 
+public class Partido { 
+    private Equipo equipo1; 
+    private Equipo equipo2; 
+    private String fecha; 
+    private String estado; // "Pendiente" o "Finalizado" 
+    private String resultado; // Ejemplo: "2-1" 
+ 
+    public Partido(Equipo equipo1, Equipo equipo2, String fecha) { 
+        this.equipo1 = equipo1; 
+        this.equipo2 = equipo2; 
+        this.fecha = fecha; 
+        this.estado = "Pendiente"; 
+        this.resultado = "N/A"; 
+    } 
+ 
+    public void finalizar(String resultado) { 
+        this.estado = "Finalizado"; 
+        this.resultado = resultado; 
+    } 
+@Override 
+public String toString() { 
+return "Partido: " + equipo1 + " vs " + equipo2 + ", Fecha: " + fecha + ", Estado: " 
++ estado + ", Resultado: " + resultado; 
+} 
+} 
+Clase: Torneo.java 
+/* 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt 
+to change this license 
+* Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit 
+this template 
+*/ 
+/** 
+* 
+* @author maila 
+*/ 
+import java.util.ArrayList; 
+public class Torneo { 
+private ArrayList<Equipo> equipos; 
+private ArrayList<Partido> partidos; 
+public Torneo() { 
+this.equipos = new ArrayList<>(); 
+this.partidos = new ArrayList<>(); 
+    } 
+ 
+    // Registrar equipos 
+    public void registrarEquipo(Equipo equipo) { 
+        equipos.add(equipo); 
+    } 
+ 
+    // Crear partidos 
+    public void crearPartido(Equipo equipo1, Equipo equipo2, String fecha) { 
+        Partido partido = new Partido(equipo1, equipo2, fecha); 
+        partidos.add(partido); 
+    } 
+ 
+    // Consultar información: Listar equipos 
+    public void listarEquipos() { 
+        System.out.println("Equipos registrados:"); 
+        for (Equipo equipo : equipos) { 
+            System.out.println(equipo); 
+        } 
+    } 
+ 
+    // Consultar información: Mostrar historial de partidos 
+    public void mostrarHistorial() { 
+        System.out.println("Historial de partidos:"); 
+        for (Partido partido : partidos) { 
+            System.out.println(partido); 
+        } 
+    } 
+ 
+    // Actualizar resultados 
+    public void actualizarResultado(int indicePartido, String resultado) { 
+        if (indicePartido >= 0 && indicePartido < partidos.size()) { 
+            Partido partido = partidos.get(indicePartido); 
+            partido.finalizar(resultado); 
+            System.out.println("Resultado actualizado exitosamente."); 
+        } else { 
+            System.out.println("Índice de partido inválido."); 
+        } 
+    } 
+} 
+ 
+Informe: Sistema de Gestión de Torneos de Fútbol y 
+Sistema de Gestión de Proyectos 
+Objetivo del Proyecto 
+El objetivo de este proyecto es implementar dos sistemas de gestión utilizando 
+Programación Orientada a Objetos (POO) en Java: 
+1. Sistema de Gestión de Torneos de Fútbol: Un sistema que permite 
+registrar equipos, crear partidos, consultar información sobre equipos y 
+partidos, y actualizar los resultados de los partidos. 
+2. Sistema de Gestión de Proyectos: Un sistema para gestionar proyectos, 
+donde se pueden registrar proyectos, asignar tareas y ver el estado de las 
+tareas. 
+ 
+1. Sistema de Gestión de Torneos de Fútbol 
+Paso 1: Diseño de Clases 
+En este sistema se definieron tres clases principales: Equipo, Partido, y Torneo. El 
+diseño de las clases fue el siguiente: 
+• Clase Equipo: 
+o Atributos: 
+▪ nombre: El nombre del equipo. 
+▪ entrenador: El nombre del entrenador. 
+▪ jugadores: Una lista de jugadores del equipo. 
+o Métodos: 
+▪ agregarJugador(): Permite agregar jugadores al equipo. 
+▪ toString(): Muestra la información del equipo. 
+• Clase Partido: 
+o Atributos: 
+▪ equipo1 y equipo2: Los dos equipos que participan en el 
+partido. 
+▪ fecha: La fecha en que se lleva a cabo el partido. 
+▪ estado: El estado del partido (Pendiente o Finalizado). 
+▪ resultado: El marcador del partido. 
+o Métodos: 
+▪ finalizar(): Cambia el estado del partido a "Finalizado" y 
+asigna el resultado. 
+▪ toString(): Muestra los detalles del partido. 
+• Clase Torneo: 
+o Atributos: 
+▪ equipos: Una lista de equipos registrados en el torneo. 
+▪ partidos: Una lista de partidos creados en el torneo. 
+o Métodos: 
+▪ registrarEquipo(): Registra un equipo en el torneo. 
+▪ crearPartido(): Crea un partido entre dos equipos. 
+▪ listarEquipos(): Muestra todos los equipos registrados. 
+▪ mostrarHistorial(): Muestra el historial de partidos jugados. 
+▪ actualizarResultado(): Permite actualizar el resultado de un 
+partido. 
+Paso 2: Implementación del Código 
+El código fue implementado siguiendo las clases y métodos definidos 
+anteriormente. Cada clase fue copiada en un archivo separado dentro del 
+proyecto de NetBeans. Se inicializaron los objetos y se probó el funcionamiento de 
+cada uno de los métodos. 
+Paso 3: Diagrama UML 
+El diagrama UML fue diseñado para mostrar las relaciones entre las clases y sus 
+métodos. El diagrama muestra lo siguiente: 
+• La clase Torneo tiene relaciones de agregación con las clases Equipo y 
+Partido. 
+• Las clases Equipo y Partido están asociadas por el hecho de que los 
+partidos se juegan entre equipos. 
+2. Sistema de Gestión de Proyectos 
+Paso 1: Diseño de Clases 
+En este sistema se definieron tres clases principales: Tarea, Proyecto, y 
+GestorDeProyecto. El diseño de las clases fue el siguiente: 
+• Clase Tarea: 
+o Atributos: 
+▪ descripcion: Descripción de la tarea. 
+▪ estado: Estado de la tarea (Pendiente o Completada). 
+o Métodos: 
+▪ completar(): Cambia el estado de la tarea a "Completada". 
+▪ toString(): Muestra la descripción y el estado de la tarea. 
+• Clase Proyecto: 
+o Atributos: 
+▪ nombre: El nombre del proyecto. 
+▪ tareas: Una lista de tareas asociadas al proyecto. 
+o Métodos: 
+▪ agregarTarea(): Permite agregar tareas al proyecto. 
+▪ mostrarTareas(): Muestra todas las tareas asociadas al 
+proyecto. 
+▪ toString(): Muestra el nombre del proyecto y la cantidad de 
+tareas. 
+• Clase GestorDeProyecto: 
+o Atributos: 
+▪ proyectos: Una lista de proyectos registrados. 
+o Métodos: 
+▪ agregarProyecto(): Registra un proyecto en el sistema. 
+▪ mostrarProyectos(): Muestra todos los proyectos registrados, 
+junto con sus tareas. 
+Paso 2: Implementación del Código 
+Al igual que en el sistema de torneos, las clases fueron implementadas y probadas 
+en NetBeans. Se utilizaron objetos para representar proyectos y tareas, y se 
+implementaron las funcionalidades de agregar tareas y proyectos, así como 
+mostrar las tareas de cada proyecto. 
+Paso 3: Diagrama UML 
+El diagrama UML de este sistema fue diseñado de la siguiente manera: 
+• La clase GestorDeProyecto tiene una relación de agregación con las 
+clases Proyecto. 
+• La clase Proyecto tiene una relación de composición con la clase Tarea, ya 
+que cada proyecto contiene varias tareas. 
+3. Conclusión 
+Ambos sistemas implementan conceptos fundamentales de la Programación 
+Orientada a Objetos como clases, objetos, relaciones de agregación y 
+composición, y uso de listas. El sistema de gestión de torneos se centra en la 
+gestión de equipos y partidos, mientras que el sistema de gestión de proyectos se 
+enfoca en proyectos y tareas. Ambos sistemas permiten gestionar entidades y 
+modificar su estado mediante métodos específicos.
